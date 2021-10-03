@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registration form</title>
+
+    <!-- Font Icon -->
+    <link rel="{% static 'stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css' %}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+
+</head>
+
+<body style="background-image:linear-gradient(0deg, rgba(92, 5, 5, 0.425) 50%, rgba(78, 20, 10, 0.466) 100%), url('{% static '/images/back.jpg'%}');">
+
+    <div class="main">
+
+        <section class="signup">
+            <img src="{% static 'images/unchecked.jpg' %}" alt="">
+            <div class="container">
+                <div class="signup-content">
+                    {% block content %}
+
+                    {% endblock%}
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>

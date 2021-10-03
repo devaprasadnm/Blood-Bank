@@ -1,0 +1,39 @@
+{% extends 'mainbase.html' %}
+
+
+{% block content %}
+
+
+<!-- Masthead-->
+<header class="masthead">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <div class="text-center text-white">
+                    <!-- Page heading-->
+                    <h1 class="mb-5">Choose the <span class="text-danger">Blood</span> group from the list</h1>
+
+
+                    <form class="form-subscribe" action="display" method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <div class="col">
+
+                                <input class="form-control form-control-lg" required="required" list="browsers" name="q"
+                                    type="text">
+
+                            </div>
+
+                            <div class="col-auto"><input class="btn btn-primary btn-lg" type="submit">
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}

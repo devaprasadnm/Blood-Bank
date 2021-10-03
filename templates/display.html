@@ -1,0 +1,104 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container">
+  {% if user.is_authenticated %}
+  <h4 style="color:#777">Hi {{user.first_name}} ....!</h4>
+  <!-- <a href="logout" type="submit" Style="width:10%;"  id="submit" class="form-submit w-25 float-right"
+      value="LOGOUT">logout</a>  -->
+  {% endif %}
+</div>
+
+
+     <!-- Search Start -->
+     <div class="jumbotron border shadow">
+      <div class="row">
+          <div class="col-md-8 offset-2">
+              <form action="display" method="POST">
+                {% csrf_token %}
+                  <div class="input-group">
+                      <input name="q" type="text" placeholder="Search" class="form-control form-control-lg" />
+                      <div class="input-group-append">
+                          <button class="btn btn-danger btn-lg">Search</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+  <!-- End Search -->
+  {% if user.is_authenticated %}
+  <div class="form-group">
+    <a href="logout" type="submit" Style="width:10%;"  id="submit" class="form-submit w-25 float-left"
+      value="LOGOUT">logout</a>
+    <a href="add-donor"   type="submit" name="submit" formaction="log" class="form-submit w-25 float-right" >ADD</a>
+  </div>
+  {% else %}
+  <div class="form-group">
+    <a href="/"   type="submit" name="submit" formaction="log" class="form-submit w-25 float-right" > BACK </a>
+  </div>
+ {% endif %}
+
+
+
+<table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <h1 style="color:red">{{test}}</h1>     
+      <th class="th-sm">Name
+      </th>
+      <th class="th-sm">Email
+      </th>
+      <th class="th-sm">Phone Number
+      </th>
+      <th class="th-sm">Age
+      </th>
+      <th class="th-sm">Blood
+      </th>
+      <th class="th-sm">Gender
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {%  for i in head %}
+    <tr>
+      <td>{{i.name}}</td>
+      <td>{{i.email}}</td>
+      <td>{{i.phn}}</td>
+      <td>{{i.age}}</td>
+      <td>{{i.blood}}</td>
+      <td>{{i.gender}}</td>
+    </tr>
+    {% endfor %}
+    </tfoot>
+</table>
+<ul class="pagination">
+  {% if head.has_previous %}
+  <li class="page-item">
+      <a href="?page=1" class="page-link"><< First</a>
+  </li>
+  <li class="page-item">
+      <a href="{{head.previous_page_link}}" class="page-link">< Previous</a>
+  </li>
+  {% endif %}
+  {% if head.has_next %}
+  <li class="page-item">
+      <a href="?page={{head.next_page_number}}" class="page-link">Next ></a>
+  </li>
+  <li class="page-item">
+      <a href="?page={{head.paginator.num_pages}}" class="page-link">Last >></a>
+  </li>
+  {% endif %}
+</ul>
+
+
+{% endblock %}
+
+
+
