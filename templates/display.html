@@ -22,9 +22,9 @@
               <form action="display" method="POST">
                 {% csrf_token %}
                   <div class="input-group">
-                      <input name="q" type="text" placeholder="Search" class="form-control form-control-lg" />
+                      <input name="q" type="text" id="search_input" placeholder="Search" class="form-control form-control-lg" />
                       <div class="input-group-append">
-                          <button class="btn btn-danger btn-lg">Search</button>
+                          <button id="search_btn" class="btn btn-danger btn-lg">Search</button>
                       </div>
                   </div>
               </form>
@@ -96,7 +96,6 @@
   </li>
   {% endif %}
 </ul>
-
 
 {% endblock %}
 

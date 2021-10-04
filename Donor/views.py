@@ -5,13 +5,14 @@ from .models import donor_list,img
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 
 # Create your views here.
 
 def home(request):
     image = img.objects.get(id=1)
-    return render(request)
+    return render(request,'home.html')
 
 
 def form(request):
@@ -37,7 +38,12 @@ def form(request):
 def display(request):
     if request.method == 'POST':
         search =  request.POST['q'] 
-        donar_details = donor_list.objects.filter(name__icontains=search)
+        donar_details = donor_list.objects.filter(
+            name__icontains=search)|donor_list.objects.filter(
+            blood__icontains=search)|donor_list.objects.filter(
+            age__icontains=search)|donor_list.objects.filter(
+            phn__icontains=search)|donor_list.objects.filter(
+            gender__startswith=search)
     else:     
         donar_details = donor_list.objects.all()
 
@@ -59,20 +65,32 @@ def signup(request):
         id =email
         if password1 == password2:
             if User.objects.filter(email=email).exists():
-                messages.info(request,'Email is already in useTaken')
-                return redirect('signup')
+                # messages.info(request,'Email is already in useTaken')
+                # 
+                return JsonResponse(
+                    {'success':'email_check'},
+                    safe = False
+                )
             else:
                 
                 user = User.objects.create_user(first_name=name, username=username, password=password1, email=email)
                 user.save()
-                return redirect('login')
+                #return redirect('login')
+                return JsonResponse(
+                    {'success':'pass'},
+                    safe = False
+                )
         else:
-            messages.info(request,'Incorrect Password')
-            return redirect('signup')
-        return render(request, 'index.html', {'user': name})
+            #messages.info(request,'Incorrect Password')
+            #return redirect('signup')
+            return JsonResponse(
+                    {'success':'password_check'},
+                    safe = False
+                )
+        #return render(request, 'index.html', {'user': name})
 
     else:
-        return render(request, 'signup.html')
+         return render(request, 'signup.html')
 
 
 def login(request):
@@ -83,13 +101,18 @@ def login(request):
         user = auth.authenticate(username=email, password=password)
 
         if user is not None:
-            global id
-            id = email
             auth.login(request,user)
-            return redirect("/display")
+           # return redirect("/display")
+            return JsonResponse(
+               {"success": 'pass'},
+               safe=False
+             )
         else:
-            messages.info(request, 'Invalid credentials')
-            return redirect("/login")
+           # messages.info(request, 'Invalid credentials')
+           # return redirect("/login")
+            return JsonResponse(
+               {"success": 'error'},
+               safe=False)
 
     else:
         return render(request, 'login.html')
