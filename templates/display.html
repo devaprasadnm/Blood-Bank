@@ -12,6 +12,7 @@
   <!-- <a href="logout" type="submit" Style="width:10%;"  id="submit" class="form-submit w-25 float-right"
       value="LOGOUT">logout</a>  -->
   {% endif %}
+  <h4 style="color:#777">Hi {{username}} ....!</h4>
 </div>
 
 
@@ -32,7 +33,7 @@
       </div>
   </div>
   <!-- End Search -->
-  {% if user.is_authenticated %}
+  <!-- {% if user.is_authenticated %}
   <div class="form-group">
     <a href="logout" type="submit" Style="width:10%;"  id="submit" class="form-submit w-25 float-left"
       value="LOGOUT">logout</a>
@@ -42,9 +43,13 @@
   <div class="form-group">
     <a href="/"   type="submit" name="submit" formaction="log" class="form-submit w-25 float-right" > BACK </a>
   </div>
- {% endif %}
+ {% endif %} -->
 
-
+ <div class="form-group">
+  <a href="logout" type="submit" Style="width:10%;"  id="submit" class="form-submit w-25 float-left"
+    value="LOGOUT">logout</a>
+  <a href="add-donor"   type="submit" name="submit" formaction="log" class="form-submit w-25 float-right" >ADD</a>
+</div>
 
 <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
   <thead>

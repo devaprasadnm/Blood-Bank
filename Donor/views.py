@@ -36,7 +36,9 @@ def form(request):
 
 
 def display(request):
+  
     if request.method == 'POST':
+
         search =  request.POST['q'] 
         donar_details = donor_list.objects.filter(
             name__icontains=search)|donor_list.objects.filter(
@@ -51,7 +53,15 @@ def display(request):
     paginator=Paginator(donar_details,5)
     page_number=request.GET.get('page')
     posts_obj=paginator.get_page(page_number)
-    return render(request, 'display.html', {'head': posts_obj})
+    if request.session.has_key('username'):
+      username = request.session['username']
+      return render(request, 'display.html', {"username" : username,'head': posts_obj})
+    else:
+      return render(request, 'login.html', {})
+    #return render(request, 'display.html', {'head': posts_obj})
+
+
+    
 
 
 def signup(request):
@@ -98,31 +108,52 @@ def login(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        user = auth.authenticate(username=email, password=password)
-
-        if user is not None:
-            auth.login(request,user)
-           # return redirect("/display")
-            return JsonResponse(
+        check_user = auth.authenticate(username=email, password=password)
+        if check_user:
+          request.session['username'] = email
+         
+          return JsonResponse(
                {"success": 'pass'},
                safe=False
              )
         else:
-           # messages.info(request, 'Invalid credentials')
-           # return redirect("/login")
             return JsonResponse(
                {"success": 'error'},
                safe=False)
+
+
+
+        # user = auth.authenticate(username=email, password=password)
+
+        # if user is not None:
+        #     auth.login(request,user)
+        #    # return redirect("/display")
+        #     return JsonResponse(
+        #        {"success": 'pass'},
+        #        safe=False
+        #      )
+        # else:
+        #    # messages.info(request, 'Invalid credentials')
+        #    # return redirect("/login")
+        #     return JsonResponse(
+        #        {"success": 'error'},
+        #        safe=False)
 
     else:
         return render(request, 'login.html')
 
 
 def logout(request):
-    auth.logout(request)
+    # auth.logout(request)
+    try:
+        del request.session['username']
+    except:
+        return redirect('login')
+
     return redirect("/")
     
     
+
         
 
 
